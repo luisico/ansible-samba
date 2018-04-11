@@ -1,0 +1,3 @@
+---
+- name: Install client packages
+  yum: name=samba-client state=present

@@ -1,3 +1,6 @@
 ---
+# Install role: server or client
+samba_role: client
+
 # Samba workgroup
 samba_workgroup: SAMBA

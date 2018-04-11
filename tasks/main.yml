@@ -1,9 +1,6 @@
 ---
-- name: Install packages
-  yum: name=samba state=present
+- import_tasks: server.yml
+  when: samba_role == 'server'
 
-- name: Configure smb
-  template: dest=/etc/samba/smb.conf src=smb.conf.j2 owner=root group=root mode=0644
-
-- name: Enable and start server
-  service: name=smb state=started enabled=yes
+- import_tasks: client.yml
+  when: samba_role == 'client'

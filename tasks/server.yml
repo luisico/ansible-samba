@@ -1,0 +1,9 @@
+---
+- name: Install server packages
+  yum: name=samba state=present
+
+- name: Configure smb
+  template: dest=/etc/samba/smb.conf src=smb.conf.j2 validate='testparm -s %s' owner=root group=root mode=0644
+
+- name: Enable and start server
+  service: name=smb state=started enabled=yes
