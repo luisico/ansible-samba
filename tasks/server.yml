@@ -8,19 +8,27 @@
 - name: Enable and start server
   service: name=smb state=started enabled=yes
 
-- name: Find current list of samba users
-  shell: 'pdbedit -L | cut -d : -f 1'
+- name: Find current list of samba users and passwords
+  shell: 'pdbedit -L -w | cut -d : -f 1,4'
   register: samba__r_current_users
   changed_when: no
   checked_mode: no
 
+- name: Generate hashed passwords
+  command: python -c 'from passlib.hash import nthash; print "{{item.user}}" + ":" + nthash.hash("{{item.password}}").upper()'
+  with_items: '{{samba_users}}'
+  register: samba__r_passwords
+  changed_when: no
+  checked_mode: no
+  delegate_to: localhost
+  become: no
+
 - name: Delete rogue samba users
   command: pdbedit -x {{item}}
   with_items: '{{samba__r_current_users.stdout_lines}}'
-  when: item not in samba_users | map(attribute="user") | list
+  when: item.split(":")[0] not in samba_users | map(attribute="user") | list
 
-- name: Add samba users
-  shell: (echo "{{item.password}}"; echo "{{item.password}}")  | smbpasswd -s -a {{item.user}}
-  with_items: '{{samba_users}}'
-  when: item.user not in samba__r_current_users.stdout_lines
-  # TODO: change password
+- name: Add samba users and passwords
+  shell: (echo "{{item.item.password}}"; echo "{{item.item.password}}") | smbpasswd -s -a {{item.item.user}}
+  with_items: '{{samba__r_passwords.results}}'
+  when: item.stdout not in samba__r_current_users.stdout_lines
