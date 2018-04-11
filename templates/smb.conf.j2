@@ -9,12 +9,14 @@
   load printers = yes
   cups options = raw
 
+{% if samba_share_homes %}
 [homes]
   comment = Home Directories
   valid users = %S, %D%w%S
   browseable = No
   read only = No
   inherit acls = Yes
+{% endif %}
 
 [printers]
   comment = All Printers

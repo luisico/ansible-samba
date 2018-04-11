@@ -4,3 +4,6 @@ samba_role: client
 
 # Samba workgroup
 samba_workgroup: SAMBA
+
+# Share homes
+samba_share_homes: yes
