@@ -7,3 +7,8 @@
 
 - name: Enable and start server
   service: name=smb state=started enabled=yes
+
+- name: Add samba users
+  shell: (echo "{{item.password}}"; echo "{{item.password}}")  | smbpasswd -s -a {{item.user}}
+  with_items: '{{samba_users}}'
+  # TODO: remove users and chage password

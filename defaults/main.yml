@@ -21,3 +21,10 @@ samba_share_printers: yes
 #     'valid users': user
 #     'read only': 'No'
 samba_shares: []
+
+# Samba users
+# List of samba users and their samba password. Note that users need to be
+# defined in the system itself, vi /etc/passwd, LDAP, ... Example:
+# - user: username
+# - password: goodpasswod
+samba_users: []
