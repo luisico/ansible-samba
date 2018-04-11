@@ -7,3 +7,6 @@ samba_workgroup: SAMBA
 
 # Share homes
 samba_share_homes: yes
+
+# Share printers (only cups is supported)
+samba_share_printers: yes

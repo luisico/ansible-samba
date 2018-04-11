@@ -4,10 +4,12 @@
 
   passdb backend = tdbsam
 
+{% if samba_share_printers %}
   printing = cups
   printcap name = cups
   load printers = yes
   cups options = raw
+{% endif %}
 
 {% if samba_share_homes %}
 [homes]
@@ -18,6 +20,7 @@
   inherit acls = Yes
 {% endif %}
 
+{% if samba_share_printers %}
 [printers]
   comment = All Printers
   path = /var/tmp
@@ -31,3 +34,4 @@
   write list = root
   create mask = 0664
   directory mask = 0775
+{% endif %}
