@@ -10,3 +10,9 @@
 
 - include: users.yml
   no_log: yes
+
+- name: Ensure paths in shares are present
+  file: path={{item.path}} state=directory
+  with_items: '{{samba_shares.values()}}'
+  when: item.path is defined
+  # Note: permissions and ownership are not enforced
