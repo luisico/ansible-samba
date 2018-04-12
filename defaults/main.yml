@@ -12,15 +12,15 @@ samba_share_homes: yes
 samba_share_printers: yes
 
 # Additional shares
-# This is a list of shares, each with a name and options,
-# consisting of a dict of valid smb options (remember to
-# quote option keys with spaces). Example:
-# - name: myshare
-#   options:
+# This is a dictionary of shares, where the key is the share name,
+# and the value is a dictionary of valid smb options. Rremember to
+# quote option keys containing spaces and Yes/No values. Example:
+# samba_shares:
+#   myshare:
 #     comment: My Shares
 #     'valid users': user
 #     'read only': 'No'
-samba_shares: []
+samba_shares: {}
 
 # Samba users
 # List of samba users and their samba password. Note that users need to be
