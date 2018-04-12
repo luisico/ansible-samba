@@ -1,8 +1,8 @@
 [global]
   workgroup = {{samba_workgroup}}
-  security = user
-
-  passdb backend = tdbsam
+{% for key, value in samba_global.items() %}
+  {{key}} = {{value}}
+{% endfor %}
 
 {% if samba_share_printers %}
   printing = cups

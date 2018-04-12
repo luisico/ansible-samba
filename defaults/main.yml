@@ -11,6 +11,11 @@ samba_share_homes: yes
 # Share printers (only cups is supported)
 samba_share_printers: yes
 
+# Global options
+samba_global:
+  security: user
+  'passdb backend': tdbsam
+
 # Additional shares
 # This is a dictionary of shares, where the key is the share name,
 # and the value is a dictionary of valid smb options. Rremember to
