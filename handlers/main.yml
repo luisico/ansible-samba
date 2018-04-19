@@ -1,0 +1,3 @@
+---
+- name: Reload smb
+  service: name=smb state=reloaded
