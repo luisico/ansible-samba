@@ -8,8 +8,9 @@
 - name: Enable and start server
   service: name=smb state=started enabled=yes
 
-- include: users.yml
+- import_tasks: users.yml
   no_log: yes
+  when: samba_global.security is defined and samba_global.security == 'user'
 
 - name: Ensure paths in shares are present
   file: path={{item.path}} state=directory
