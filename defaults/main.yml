@@ -6,10 +6,10 @@ samba_role: client
 samba_workgroup: SAMBA
 
 # Share homes
-samba_share_homes: yes
+samba_share_homes: true
 
 # Share printers (only cups is supported)
-samba_share_printers: yes
+samba_share_printers: true
 
 # Global options
 samba_global:

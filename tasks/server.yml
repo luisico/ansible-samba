@@ -1,20 +1,33 @@
 ---
 - name: Install server packages
-  yum: name=samba state=present
+  yum:
+    name: samba
+    state: present
 
 - name: Configure smb
-  template: dest=/etc/samba/smb.conf src=smb.conf.j2 validate='testparm -s %s' owner=root group=root mode=0644
+  template:
+    dest: /etc/samba/smb.conf
+    src: smb.conf.j2
+    validate: 'testparm -s %s'
+    owner: root
+    group: root
+    mode: '0644'
   notify: Reload smb
 
 - name: Enable and start server
-  service: name=smb state=started enabled=yes
+  service:
+    name: smb
+    state: started
+    enabled: true
 
 - import_tasks: users.yml
-  no_log: yes
+  no_log: true
   when: samba_global.security is defined and samba_global.security == 'user'
 
-- name: Ensure paths in shares are present
-  file: path={{item.path}} state=directory
-  with_items: '{{samba_shares.values()}}'
+- name: Ensure paths in shares are present   # noqa risky-file-permissions
+  file:
+    path: '{{ item.path }}'
+    state: directory
+  with_items: '{{ samba_shares.values() }}'
   when: item.path is defined
   # Note: permissions and ownership are not enforced
