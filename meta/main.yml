@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: samba
   author: Luis Gracia
   description: Install Samba in servers and clients
   license: MIT
