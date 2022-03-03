@@ -1,25 +1,33 @@
 ---
 - name: Find current list of samba users and passwords
-  shell: 'pdbedit -L -w | cut -d : -f 1,4'
+  shell: |
+    set -o pipefail
+    'pdbedit -L -w | cut -d : -f 1,4'
+  args:
+    executable: /bin/bash
   register: samba__r_current_users
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
 
 - name: Generate hashed passwords
-  command: python -c 'from passlib.hash import nthash; print "{{item.user}}" + ":" + nthash.hash("{{item.password}}").upper()'
-  with_items: '{{samba_users}}'
+  command: python -c 'from passlib.hash import nthash; print "{{ item.user }}" + ":" + nthash.hash("{{ item.password }}").upper()'
+  with_items: '{{ samba_users }}'
   register: samba__r_passwords
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   delegate_to: localhost
-  become: no
+  become: false
 
 - name: Delete rogue samba users
-  command: pdbedit -x {{item.split(":")[0]}}
-  with_items: '{{samba__r_current_users.stdout_lines}}'
+  command: pdbedit -x {{ item.split(":")[0] }}
+  with_items: '{{ samba__r_current_users.stdout_lines }}'
   when: item.split(":")[0] not in samba_users | map(attribute="user") | list
 
 - name: Add samba users and passwords
-  shell: (echo "{{item.item.password}}"; echo "{{item.item.password}}") | smbpasswd -s -a {{item.item.user}}
-  with_items: '{{samba__r_passwords.results}}'
+  shell: |
+    set -o pipefail
+    (echo "{{ item.item.password }}"; echo "{{ item.item.password }}") | smbpasswd -s -a {{ item.item.user }}
+  args:
+    executable: /bin/bash
+  with_items: '{{ samba__r_passwords.results }}'
   when: item.stdout not in samba__r_current_users.stdout_lines

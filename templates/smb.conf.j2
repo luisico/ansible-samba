@@ -1,7 +1,7 @@
 [global]
-  workgroup = {{samba_workgroup}}
+  workgroup = {{ samba_workgroup }}
 {% for key, value in samba_global.items() %}
-  {{key}} = {{value}}
+  {{ key }} = {{ value }}
 {% endfor %}
 
 {% if samba_share_printers %}
@@ -37,9 +37,9 @@
 {% endif %}
 
 {% for name, options in samba_shares.items() %}
-[{{name}}]
+[{{ name }}]
 {% for key, value in options.items() %}
-  {{key}} = {{value}}
+  {{ key }} = {{ value }}
 {% endfor %}
 
 {% endfor %}
