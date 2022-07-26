@@ -4,3 +4,6 @@
 
 - import_tasks: client.yml
   when: samba_role == 'client'
+
+- import_tasks: member.yml
+  when: samba_role == 'member'
