@@ -1,5 +1,7 @@
+---
 galaxy_info:
   role_name: samba
+  namespace: luisico
   author: Luis Gracia
   description: Install Samba in servers and clients
   license: MIT
