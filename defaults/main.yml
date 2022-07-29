@@ -1,9 +1,14 @@
 ---
-# Install role: server or client
+# Install role: server or client or member
 samba_role: client
 
 # Samba workgroup
 samba_workgroup: SAMBA
+
+# Kerberos realm
+# Only used when 'samba_role: member' is set.
+# Is used in smb.conf + krb5.conf
+samba_realm: SAMBA.EXAMPLE.COM
 
 # Share homes
 samba_share_homes: true
@@ -15,6 +20,24 @@ samba_share_printers: true
 samba_global:
   security: user
   passdb backend: tdbsam
+
+# Global options for member server
+# If 'samba_role: member' is set, 'realm' + 'security' will be set automatically. Do not set them as global options.
+#
+# samba_global:
+#   "idmap config * : range": 10000 - 19999
+#   "idmap config SAMBA : backend": rid
+#   "idmap config SAMBA : range": 1000000 - 1999999
+#   vfs objects: acl_xattr
+#   map acl inherit: yes
+#   log level: 3
+#   allow insecure wide links: yes
+#
+# Global options for domain controller
+# If 'samba_role: dc' is set 'realm' + 'server role' will be set automatically. (not implemented yet)
+# samba_global:
+#   dns forwarder: 192.168.100.1
+#   log level: 3
 
 # Additional shares
 # This is a dictionary of shares, where the key is the share name, and the value
