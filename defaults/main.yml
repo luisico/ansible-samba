@@ -21,8 +21,11 @@ samba_global:
   security: user
   passdb backend: tdbsam
 
-# Global options for member server
-# If 'samba_role: member' is set, 'realm' + 'security' will be set automatically. Do not set them as global options.
+# Global options for domain member server
+# 'workgroup' is always set via role variable 'samba_workgroup',
+# If 'samba_role: member' is set, 'realm' is set via role variable 'samba_realm',
+# and 'security = ADS' will also be set.
+# Do not set these variable as global options.
 #
 # samba_global:
 #   "idmap config * : range": 10000 - 19999
