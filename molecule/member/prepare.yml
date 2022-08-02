@@ -6,3 +6,4 @@
     - name: Update apt cache
       apt:
         update_cache: true
+      when: ansible_distribution == "Debian"

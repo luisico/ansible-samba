@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include ansible-role-samba"
+    - name: "Include luisico.samba"
       include_role:
         name: "luisico.samba"
       vars:
