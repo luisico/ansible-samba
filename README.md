@@ -2,7 +2,12 @@ Samba
 ======
 Install [Samba](https://www.samba.org/samba/what_is_samba.html) server.
 
-This roles supports server and client roles. For clients (default), `samba-client` is installed along with some dependencies, but do not prepare mounts or set up any configuration. For servers, the configuration is done via a `smb.conf` template managed by a few variables (see `defaults/main.yml` for details). You can configure any global option in dict `samba_global`, except the workgroup, which is configured in `samba_workgroup`. Any number of shares can be configure in dict `samba_shares`. Directories for defined samba shares will be created.
+This role supports 'server', 'client' and 'member' roles.
+For clients (default), `samba-client` is installed along with some dependencies, but do not prepare mounts or set up any configuration.
+For servers, the configuration is done via a `smb.conf` template managed by a few variables (see `defaults/main.yml` for details).
+For domain member servers, the configuration is done via a `smb.conf` = `krb5.conf` template managed by a few variables (see `defaults/main.yml` for details).
+You can configure any global option in dict `samba_global`, except the workgroup, which is configured in `samba_workgroup`.
+Any number of shares can be configure in dict `samba_shares`. Directories for defined samba shares will be created.
 
 When using Samba's `user` security model (default), users in `samba_users` will be setup in the samba context, but note you still need to define them at the OS context (ie `/etc/passwd`, LDAP, ...).
 
@@ -24,7 +29,7 @@ Dependencies
 Example Playbook
 ----------------
 Example:
-```
+```yaml
 - hosts: server
   roles:
     - {role: samba, samba_role: server}

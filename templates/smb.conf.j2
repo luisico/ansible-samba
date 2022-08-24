@@ -1,17 +1,24 @@
+# {{ ansible_managed }}
 [global]
   workgroup = {{ samba_workgroup }}
+{% if samba_role == "member" %}
+  realm = {{ samba_realm }}
+  security = ADS
+{% endif %}
 {% for key, value in samba_global.items() %}
+{% if not ((key == "security" or key == "realm") and samba_role == "member") %}
   {{ key }} = {{ value }}
+{% endif %}
 {% endfor %}
-
 {% if samba_share_printers %}
+
   printing = cups
   printcap name = cups
   load printers = yes
   cups options = raw
 {% endif %}
-
 {% if samba_share_homes %}
+
 [homes]
   comment = Home Directories
   valid users = %S, %D%w%S
@@ -19,8 +26,8 @@
   read only = No
   inherit acls = Yes
 {% endif %}
-
 {% if samba_share_printers %}
+
 [printers]
   comment = All Printers
   path = /var/tmp
@@ -35,11 +42,10 @@
   create mask = 0664
   directory mask = 0775
 {% endif %}
-
 {% for name, options in samba_shares.items() %}
+
 [{{ name }}]
 {% for key, value in options.items() %}
   {{ key }} = {{ value }}
 {% endfor %}
-
 {% endfor %}
