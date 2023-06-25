@@ -4,10 +4,7 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: centos8
-    image: quay.io/centos/centos:stream8
-    pre_build_image: true
-  - name: debian
+  - name: instance
     image: geerlingguy/docker-${MOLECULE_DISTRO:-debian12}-ansible:latest
     pre_build_image: true
 provisioner:
