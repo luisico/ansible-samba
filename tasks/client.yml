@@ -1,8 +1,8 @@
 ---
-- name: Install client packages
-  yum:
-    name: '{{ item }}'
-    state: present
-  with_items:
-    - samba-client
-    - cifs-utils
+- include_tasks: client-RedHat.yml
+  when:
+    - ansible_os_family == 'RedHat'
+
+- include_tasks: client-Debian.yml
+  when:
+    - ansible_os_family == 'Debian'
