@@ -7,11 +7,8 @@ platforms:
   - name: centos8
     image: quay.io/centos/centos:stream8
     pre_build_image: true
-  - name: debian10
-    image: geerlingguy/docker-debian10-ansible
-    pre_build_image: true
-  - name: debian11
-    image: geerlingguy/docker-debian11-ansible
+  - name: debian
+    image: geerlingguy/docker-${MOLECULE_DISTRO:-debian12}-ansible:latest
     pre_build_image: true
 provisioner:
   name: ansible
