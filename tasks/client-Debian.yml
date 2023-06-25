@@ -1,0 +1,7 @@
+---
+- name: Install Samba client packages
+  package:
+    name:
+      - smbclient
+      - cifs-utils
+    state: present
