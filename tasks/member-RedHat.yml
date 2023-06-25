@@ -1,0 +1,9 @@
+---
+- name: Install Samba Domain Member packages
+  package:
+    name:
+      - krb5-workstation
+      - samba
+      - samba-winbind
+      - samba-winbind-modules
+    state: present

@@ -1,0 +1,58 @@
+---
+name: Ansible Molecule
+  #
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  molecule:
+    # Name the Job
+    name: Ansible Molecule
+    # Set the agent to run on
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        distro:
+          - centos8
+          - debian10
+          - debian11
+          - debian12
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Check out code base
+        uses: actions/checkout@v3
+        with:
+          path: 'luisico.samba'
+
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Set up Python3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule molecule-plugins[docker]
+
+      - name: Check ansible version
+        run: ansible --version
+
+      - name: Check molecule version
+        run: molecule --version
+
+      - name: Run molecule test
+        run: molecule test
+        working-directory: 'luisico.samba'
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}

@@ -1,0 +1,31 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    samba_role: member
+    samba_share_homes: false
+    samba_share_printers: false
+    samba_workgroup: EXAMPLE
+    samba_realm: AD.EXAMPLE.COM
+    samba_global:
+      "idmap config * : range": 10000 - 19999
+      "idmap config EXAMPLE : backend": rid
+      "idmap config EXAMPLE : range": 1000000 - 1999999
+      vfs objects: acl_xattr
+      map acl inherit: yes
+      log level: 3
+      allow insecure wide links: yes
+    samba_shares:
+      disk01-admin:
+        comment: disk01 Admin share
+        path: /srv/samba/disk01
+        writeable: yes
+        administrative share: yes
+      Archive:
+        comment: Archive01 share
+        path: /srv/samba/disk01/archive01
+        writeable: yes
+
+  roles:
+    - role: luisico.samba

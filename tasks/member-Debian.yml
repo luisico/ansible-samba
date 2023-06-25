@@ -1,0 +1,10 @@
+---
+- name: Install Samba Domain Member packages
+  package:
+    name:
+      - krb5-user
+      - libnss-winbind
+      - samba
+      - smbclient
+      - winbind
+    state: present
