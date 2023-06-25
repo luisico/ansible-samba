@@ -1,8 +1,11 @@
 ---
-- name: Install server packages
-  yum:
-    name: samba
-    state: present
+- include_tasks: server-RedHat.yml
+  when:
+    - ansible_os_family == 'RedHat'
+
+- include_tasks: server-Debian.yml
+  when:
+    - ansible_os_family == 'Debian'
 
 - name: Configure smb
   template:
